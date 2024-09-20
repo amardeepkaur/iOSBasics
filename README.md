@@ -143,3 +143,8 @@ iOS Topics
 	   print(p === a)
 	```
  ******
+
+ ### Ideal way to share framework without exposing code: 
+- https://help.apple.com/xcode/mac/current/#/dev6f6ac218b
+- https://developer.apple.com/documentation/xcode/distributing-binary-frameworks-as-swift-packages
+- https://medium.com/trueengineering/xcode-and-xcframeworks-new-format-of-packing-frameworks-ca15db2381d3
