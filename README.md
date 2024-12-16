@@ -57,6 +57,39 @@ iOS Topics
   - Print statement will be much cleaner <br> 
    ``` [Type: iPhone, Price: 799.0, Color: White, Type: iPhone, Price: 699.0, Color: Black] ```
 
+- Class and structs 
+Detailed Comparison of Memory Storage
+Aspect	Classes (Reference Types)	Structs (Value Types)
+Memory Location	Stored in the heap (dynamic memory).	Stored on the stack (static memory).
+Allocation	Allocated dynamically at runtime.	Allocated at compile-time, in a linear order.
+Copying Behavior	Reference is copied (not the object itself).	The entire value is copied (deep copy).
+Memory Management	Managed by ARC (Automatic Reference Counting).	Managed automatically by scope (stack memory).
+Deallocation	Freed when reference count drops to zero.	Freed automatically when it goes out of scope.
+Independence	Multiple references point to the same object.	Each instance is independent.
+Example Types	class, closure, String, Array, etc.	struct, enum, Tuple, Int, Double, etc.
+Performance Impact	Can be more memory-intensive due to heap allocation and reference counting overhead.	More efficient in cases where copies are not needed, as data is stored directly in variables.
+Stack vs. Heap Memory
+1. Heap Memory (Classes):
+    * Heap memory is used for storing objects that need to be accessed and shared in multiple places.
+    * Because heap memory is dynamically allocated, the lifetime of objects is controlled by reference counting (ARC). As long as there is at least one reference to an object, it remains in memory.
+    * The downside is that heap allocation is slower than stack allocation because it involves managing dynamic memory.
+2. Stack Memory (Structs):
+    * Stack memory is used for smaller, temporary data that can be automatically deallocated when it goes out of scope.
+    * Structs, being value types, are stored on the stack. When a struct is created, it is placed on the stack, and when the function or scope it belongs to ends, it is automatically removed from the stack.
+    * Stack allocation is generally faster because it involves a simple push and pop operation, without needing to manage complex memory for the object.
+
+Summary of Memory Storage Behavior:
+* Classes (Reference Types):
+    * Heap allocation.
+    * Reference counting via ARC.
+    * Multiple references point to the same instance.
+    * Can be shared and modified across different parts of the program.
+* Structs (Value Types):
+    * Stack allocation (typically).
+    * No reference counting.
+    * Each instance is copied when assigned or passed, creating independent copies.
+    * More efficient for data that doesn’t need to be shared.
+
 <br>
 
 *** 
