@@ -397,6 +397,18 @@ In Swift, for reference types (like classes), the default behavior is shallow co
 	    
 	   print(p === a)
 	```
+
+6. Podfile and Podspec
+ 
+| **Feature**           | **Podfile**                                            | **Podspec**                                             |
+|-----------------------|-------------------------------------------------------|--------------------------------------------------------|
+| **Purpose**           | Used by developers to install dependencies into their project. | Used by library authors to define the configuration for their pod. |
+| **Scope**             | Specifies which dependencies the current project needs. | Defines how a pod should be packaged and installed.     |
+| **Used by**           | Developers who are working on the application.        | Authors who are creating reusable libraries/pods.       |
+| **Location**          | Found in the root directory of the Xcode project (or workspace). | Found in the root directory of the pod's repository.    |
+| **Fields**            | Declares dependencies and installation options (e.g., version, target). | Declares metadata, source files, dependencies, and platform details for the pod. |
+
+   7. 
  ******
 
  ### Ideal way to share framework without exposing code: 
