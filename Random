@@ -3,20 +3,16 @@ import SwiftUI
 extension Color {
     
     // MARK: - Background Colors
-    static let lightMintGreen = Color(red: 199/255, green: 255/255, blue: 219/255) // Soft Mint Green
-    static let lightPeachBeige = Color(red: 255/255, green: 238/255, blue: 226/255) // Light Peachy Beige
-    static let lightPowderBlue = Color(red: 211/255, green: 239/255, blue: 255/255) // Soft Powder Blue
+    static let softMintGreen = Color(red: 199/255, green: 255/255, blue: 219/255) // Soft Mint Green
+    static let paleSkyBlue = Color(red: 215/255, green: 243/255, blue: 255/255) // Pale Sky Blue
+    static let lightSand = Color(red: 245/255, green: 238/255, blue: 224/255) // Light Sand
     
     // MARK: - Button Colors
-    static let pastelCoral = Color(red: 255/255, green: 149/255, blue: 132/255) // Pastel Coral
-    static let pastelLimeGreen = Color(red: 174/255, green: 255/255, blue: 124/255) // Pastel Lime Green
-    static let pastelLavender = Color(red: 200/255, green: 173/255, blue: 255/255) // Pastel Lavender
+    static let softBlushPink = Color(red: 229/255, green: 181/255, blue: 201/255) // Soft Blush Pink
+    static let mutedLavender = Color(red: 200/255, green: 173/255, blue: 255/255) // Muted Lavender
+    static let softTaupe = Color(red: 189/255, green: 168/255, blue: 158/255) // Soft Taupe
     
     // MARK: - Text Colors
-    static let darkCharcoalGray = Color(red: 45/255, green: 45/255, blue: 45/255) // Dark Charcoal Gray
-    static let warmDarkBrown = Color(red: 60/255, green: 40/255, blue: 40/255) // Warm Dark Brown
-    
-    // MARK: - Accent Colors
-    static let softLemonYellow = Color(red: 255/255, green: 248/255, blue: 127/255) // Soft Lemon Yellow
-    static let pastelSkyBlue = Color(red: 162/255, green: 211/255, blue: 255/255) // Pastel Sky Blue
+    static let deepCharcoal = Color(red: 45/255, green: 45/255, blue: 45/255) // Deep Charcoal
+    static let warmSlate = Color(red: 60/255, green: 60/255, blue: 60/255) // Warm Slate
 }
