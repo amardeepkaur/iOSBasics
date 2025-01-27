@@ -1,0 +1,105 @@
+Push notifications with Firebase in iOS
+
+Firebase Cloud Messaging
+
+Firebase Cloud Messaging (FCM) is a cross-platform messaging solution that lets you reliably send messages at no cost.
+
+
+
+1.	Configure Apple dev account
+Enable the Push notifications service.
+Create APNS certificate with the app’s App ID.
+Install the SSL certificate in keychain and export the .p12 file.
+
+2.	Configure Firebase account
+Register for firebase account and create a new project. 
+In project settings, add firebase to iOS/Android app.
+Add the bundle identifier and  download the plist file to drop in the project.
+Install pod into firebase project. 
+In firebase portal, select cloud messaging and upload the APNS .p12 file for development and production.
+
+ 
+
+3.	Configure Xcode project:
+Go to the project settings and add the push notification service in the cababilty.
+In AppDelegate file, import UserNotifications and.
+
+Setting up firebase in AppDelegate:
+
+1.	import FirebaseMessaging
+2.	Add below code into didFinishLaunchingWithOptions:
+FirebaseApp.configure()
+Messaging.messaging().delegate = self
+Messaging.messaging().isAutoInitEnabled = true
+3.	Confirm to MessagingDelegate.
+
+       func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
+        print("Firebase registration token: \(String(describing: fcmToken))")
+
+        let dataDict: [String: String] = ["token": fcmToken ?? ""]
+        NotificationCenter.default.post(
+            name: Notification.Name("FCMToken"),
+            object: nil,
+            userInfo: dataDict
+        )
+    }
+
+
+	Setting up push notifications in App delegate:
+
+1.	import UserNotifications
+2.	Confirm to UNUserNotificationCenterDelegate.
+3.	In didFinishLaunchWithOptions, call the below method
+
+	func registerForPushNotifications() {
+        UNUserNotificationCenter.current().delegate = self
+        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) {
+            (granted, error) in
+            print("Permission granted: \(granted)")
+            // 1. Check if permission granted
+            guard granted else { return }
+            // 2. Attempt registration for remote notifications on the main thread
+            DispatchQueue.main.async {
+                UIApplication.shared.registerForRemoteNotifications()
+            }
+        }
+    }
+4.	Add the push notification’s delegates methods.
+
+	func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+        // 1. Convert device token to string
+        let tokenParts = deviceToken.map { data -> String in
+            return String(format: "%02.2hhx", data)
+        }
+        let token = tokenParts.joined()
+        // 2. Print device token to use for PNs payloads
+        print("Device Token: \(token)")
+Messaging.messaging().apnsToken = deviceToken
+    }
+
+    func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
+        // 1. Print out error if PNs registration not successful
+        print("Failed to register for remote notifications with error: \(error)")
+    }
+
+	func userNotificationCenter(_ center: UNUserNotificationCenter,
+                                willPresent notification: UNNotification,
+                                withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions)
+                                -> Void) {
+        _ = notification.request.content.userInfo
+        completionHandler([[.alert, .sound]])
+    }
+
+    func userNotificationCenter(_ center: UNUserNotificationCenter,
+                                didReceive response: UNNotificationResponse,
+                                withCompletionHandler completionHandler: @escaping () -> Void) {
+        _ = response.notification.request.content.userInfo
+        completionHandler()
+    }
+
+
+Notes:
+
+1.	In a multi-user app server has to track logged in users.
+Track the logged on users on your server and their current reg_ids. User A could be logged on multiple devices, then logs out from device 1, and user B logs onto device 1, etc. and your server has to track all of these. Probably another table to track the relationships between 'Logged On Users' to 'Reg Ids'.
+
