@@ -53,6 +53,50 @@ class MyClass {
 let instance = MyClass()
 instance.myProperty = 3
 
+class TestClass {
+    var arr1 = [1,2,3]
+    
+//    func performTask() {
+//        print(arr1 == arr2)
+//    }
+}
+
+var testclass = TestClass()
+//testclass.performTask()
+var arr2 = testclass.arr1
+//testclass.arr1.append(4)
+arr2.append(4)
+
+print(testclass.arr1 == arr2)
+
+protocol Platform {
+    func printPlatform() -> String
+}
+
+class iOSPlatform: Platform {
+    func printPlatform() -> String {
+        return "iOS"
+    }
+}
+
+class MacOSPlatform: Platform {
+    func printPlatform() -> String {
+        return "Mac iOS"
+    }
+}
+
+func printPlatform(isMac: Bool) -> Platform {
+    if isMac {
+        return MacOSPlatform()
+    } else {
+        return iOSPlatform()
+    }
+}
+
+let printStatement = printPlatform(isMac: false)
+print(printStatement.printPlatform())
+
+
 /*
  if, guard, switch: to execute different branches of code
  break, continue: to transfer the flow of execution to another point of code
