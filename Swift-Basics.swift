@@ -142,5 +142,97 @@ func sessionCompletion(completionHandler(success: Any, failure: Any)->(), value:
  
  Completion handlers can become hard to read, especially when you have to nest multiple handlers. An alternate approach is to use asynchronous code, as described in Concurrency. 
  */
+struct ViewA: View {
+    @State private var path = NavigationPath()
+    
+    var body: some View {
+        NavigationStack(path: $path) {
+            VStack(spacing: 20) {
+                Text("This is View A")
+                Button("Go to View B") {
+                    path.append(Route.viewB)
+                }
+            }
+            .navigationTitle("View A")
+            .navigationDestination(for: Route.self) { route in
+                switch route {
+                case .viewB:
+                    ViewB(path: $path)
+                case .viewC:
+                    ViewC(path: $path)
+                case .viewD:
+                    ViewD()
+                }
+            }
+        }
+    }
+}
 
+enum CardItem: String, CaseIterable {
+    case workout = "Workout"
+    case meals = "Meals"
+    case steps = "Steps"
+    case dailyGoals = "Daily Goals"
+    
+    var id: String { rawValue }
+    
+    var title: String {
+        return "Track my \(self.rawValue)"
+    }
+    
+    var destinationTapped: String {
+        return self.rawValue
+    }
+}
+
+struct CardModel: Identifiable {
+    var title: String
+    var buttonTitle: String
+    var buttonActionDestination: String
+    var id: String
+    
+    init(from item: CardItem) {
+            self.id = item.id
+            self.title = item.rawValue
+            self.buttonTitle = item.title
+            self.buttonActionDestination = item.destinationTapped
+        }
+}
+
+class HomeViewModel: ObservableObject {
+    @Published var cardList = [CardModel]()
+    
+    init() {
+        loadCards()
+    }
+    
+    private func loadCards() {
+        cardList = CardItem.allCases.map {
+            CardModel(from: $0)
+        }
+    }
+}
+
+struct HomeView: View {
+    @StateObject var viewModel = HomeViewModel()
+    @State private var toggle: Bool = false
+    
+    var body: some View {
+        ScrollView {
+            ForEach(viewModel.cardList) { card in
+                CardView(cardModel: card)
+            }
+            Text("State is \(toggle ? "On" : "Off")")
+            ToggleView(toggleState: $toggle)
+        }
+    }
+}
+
+struct ToggleView: View {
+    @Binding var toggleState: Bool
+    
+    var body: some View {
+        Toggle("Switch status", isOn: $toggleState)
+    }
+}
 
